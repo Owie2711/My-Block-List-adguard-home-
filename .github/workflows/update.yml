@@ -1,5 +1,8 @@
 name: Update Blocklist
 
+permissions:
+  contents: write
+
 on:
   schedule:
     - cron: "0 */6 * * *"   # tiap 6 jam
@@ -10,18 +13,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Run script
+      - name: Run merge script
         run: |
           chmod +x merge.sh
           ./merge.sh
 
-      - name: Commit result
+      - name: Commit & push
         run: |
           git config user.name "blocklist-bot"
           git config user.email "bot@github.com"
           git add merged.txt
           git commit -m "Auto update blocklist" || echo "No changes"
-          git push
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
