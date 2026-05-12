@@ -17,10 +17,10 @@ done < sources.txt
 
 echo "Cleaning..."
 
-# buang comment & empty line
+# remove comment & empty line
 grep -v '^#' $TEMP | grep -v '^$' > cleaned.txt
 
-# extract domain aja (biar ringan & konsisten)
+# extract domain saja (lebih ringan buat AdGuard)
 grep -Eo '([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}' cleaned.txt \
   | tr '[:upper:]' '[:lower:]' \
   | sort -u > $OUTPUT
